@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
+from django.shortcuts import render,get_object_or_404
+from shopApp.models import *
 # Create your views here.
 def welcome(request):
     return render(request,"welcome.html")
@@ -58,3 +60,24 @@ def register(request):
 
     else:
         return render(request, 'registeration.html')
+
+
+
+
+# Create your views here.
+
+def home(request, category_slug=None):
+    category = None
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+    return render(request,
+                  'home.html',
+                  {'category': category,
+                   'categories': categories,
+                   'products': products})
+
+def product_detail(request):
+    pass
