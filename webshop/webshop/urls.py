@@ -29,7 +29,6 @@ urlpatterns = [
     path('(?P<category_slug>[-\w]+)/',views.home,name='home_by_category'),
     path("search/",views.search,name="search"),
     path('(?P<product_id>\d+)/(?P<slug>[-\w]+)/',
-
         views.product_detail,
 
         name='product_detail'),
