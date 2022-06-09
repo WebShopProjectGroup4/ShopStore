@@ -80,9 +80,6 @@ def home(request, category_slug=None):
                   {'category': category,
                    'categories': categories,
                    'products': products})
-                   
-def product_detail(request):
-    pass
 
 
 def search(request):
@@ -95,3 +92,14 @@ def search(request):
         return render(request, "search.html", {'search':search, 'products':products})
     else:
         return render(request, "search.html")
+
+
+def product_detail(request, product_id,slug):
+    product = get_object_or_404(Product,
+                                id=product_id,
+                                available=True)
+    #cart_product_form = CartAddProductForm()
+    return render(request,
+                  'product_detail.html',
+                  {'product': product,})
+
