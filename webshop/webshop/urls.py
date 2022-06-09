@@ -27,8 +27,11 @@ urlpatterns = [
     path("logout", views.logout_user, name="logout"),
     path("home/",views.home,name="home"),
     path('(?P<category_slug>[-\w]+)/',views.home,name='home_by_category'),
+    path("search/",views.search,name="search"),
     path('(?P<product_id>\d+)/(?P<slug>[-\w]+)/',
+
         views.product_detail,
+
         name='product_detail'),
-        
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

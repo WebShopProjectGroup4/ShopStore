@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
 from shopApp.models import *
+from django.db.models import Q
+
 # Create your views here.
 def welcome(request):
     return render(request,"welcome.html")
@@ -78,6 +80,18 @@ def home(request, category_slug=None):
                   {'category': category,
                    'categories': categories,
                    'products': products})
-
+                   
 def product_detail(request):
     pass
+
+
+def search(request):
+   
+    if request.method == "POST":
+        search = request.POST['search']
+        
+        products = Product.objects.filter(Q(name__icontains=search)|Q(description__icontains = search))
+        
+        return render(request, "search.html", {'search':search, 'products':products})
+    else:
+        return render(request, "search.html")
