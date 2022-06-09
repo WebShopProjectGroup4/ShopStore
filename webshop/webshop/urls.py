@@ -26,6 +26,7 @@ urlpatterns = [
     path("login", views.login_user, name="login"),
     path("logout", views.logout_user, name="logout"),
     path("home/",views.home,name="home"),
+    path("about", views.about, name="about"),
     path('(?P<category_slug>[-\w]+)/',views.home,name='home_by_category'),
     path("search/",views.search,name="search"),
     path('(?P<product_id>\d+)/(?P<slug>[-\w]+)/',
