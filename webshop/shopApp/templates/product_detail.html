@@ -1,9 +1,69 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+
+    <style>
+      
+        .rate > input{
+            display: none;
+            position: absolute;
+            left: 0;
+            top: -50px;
+            
+          }
+          
+          .rate{
+            display: inline-block;;
+            border: 0;
+            overflow: hidden;
+          }
+          
+          .rate > label{
+            float: right;
+            
+            
+          }
+          
+          /* Showing the stars */
+          .rate > label:before{
+            display: inline-block;
+            font-size: 2.0rem;
+            font-family: 'Font Awesome\ 5 Free';
+            content: "\f005";
+            margin:0;
+            padding:0.3rem .2rem;
+            cursor: pointer;
+          }
+          
+          /* Half star */
+          .rate .half:before{
+            content: "\f089";
+            position: absolute;
+            padding-right: 0;
+          }
+          
+          /* Click and hover */
+          input:checked ~ label, label:hover ~ label{
+            color: #ffb503;
+          }
+       
+          
+    </style>
+
+    {% load static %}
+</head>
+<body>
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-6 col-md-4">
-            </div>
+            
             <div class="col-md-6 col-md-4">
                 <div class="thumbnail">
                     <h2>Category: {{product.category}}</h2>
@@ -34,7 +94,104 @@
                 </div>
             </div>
             <div class="col-md-6 col-md-4">
-            </div>
+                <h3>{{ product.name }}</h3>
+                <h3><label>{{ product.price }} Kr</label></h3>
+                <p><h4><b>Product Details:</b></h4>{{ product.description }}</p>
+                <br>
+                <h2>Add Reviews Here</h2>
+
+
+                <form action="{% url 'submit_review' product.id %}" method="POST">
+                    {% csrf_token %}
+                    
+        
+                    <div>
+                        <!-- Rating stars -->
+                        <label>How do you rate this product?</label>
+                        <br>
+                        <div class="rate">
+                            <input type="radio" name="rating" id="rating10" value="5" required /><label for="rating9" title="5" ></label>
+                            <input type="radio" name="rating" id="rating9" value="4.5" required /><label for="rating9" title="4.5" class="half" ></label>
+                            <input type="radio" name="rating" id="rating8" value="4" required /><label for="rating8" title="4"></label>
+                            <input type="radio" name="rating" id="rating7" value="3.5" required /><label for="rating7" title="3.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating6" value="3" required /><label for="rating6" title="3"></label>
+                            <input type="radio" name="rating" id="rating5" value="2.5" required /><label for="rating5" title="2.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating4" value="2" required /><label for="rating4" title="2"></label>
+                            <input type="radio" name="rating" id="rating3" value="1.5" required /><label for="rating3" title="1.5" class="half"></label>
+                            <input type="radio" name="rating" id="rating2" value="1" required /><label for="rating2" title="1"></label>
+                            <input type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
+                        </div>
+        <br>
+                        Review Title:
+                        <input type="text" class="form-control" name="title">
+                        <br>
+                        Review:
+                        <textarea name="review" rows="4" class="form-control"></textarea>
+                        <br>{% if user.is_authenticated %}
+                        {% comment %} 
+                        {% if orderproduct %}
+                            <input type="submit" value="Submit Review" class="btn btn-primary">
+                        {% else %}
+                            <p>You must purchase this product to post a review.</p>
+                        {% endif %} {% endcomment %}
+
+                        
+                            <input type="submit" value="Submit Review" class="btn btn-primary">
+                        
+
+                    {% else %}
+                    <p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
+                    {% endif %}
+
+        
+                    </div>
+        
+                </form>
+        <br>
+        <header class="section-heading">
+        <h3>Customer Reviews </h3>
+        <div class="rating-star">
+        <span>
+            <i class="bi bi-star{% if product.averageReview < 0.5 %}-o{% elif product.averageReview >= 0.5 and product.averageReview < 1 %}-half-o {% endif %}" aria-hidden="true"></i>
+            <i class="bi bi-star{% if product.averageReview < 1.5 %}-o{% elif product.averageReview >= 1.5 and product.averageReview < 2 %}-half-o {% endif %}" aria-hidden="true"></i>
+            <i class="bi bi-star{% if product.averageReview < 2.5 %}-o{% elif product.averageReview >= 2.5 and product.averageReview < 3 %}-half-o {% endif %}" aria-hidden="true"></i>
+            <i class="bi bi-star{% if product.averageReview < 3.5 %}-o{% elif product.averageReview >= 3.5 and product.averageReview < 4 %}-half-o {% endif %}" aria-hidden="true"></i>
+            <i class="bi bi-star{% if product.averageReview < 4.5 %}-o{% elif product.averageReview >= 4.5 and product.averageReview < 5 %}-half-o {% endif %}" aria-hidden="true"></i>
+        <span>{{reviews.count}} reviews</span>
+            </span>
         </div>
+        
+        </header>
+        
+        {% for review in reviews %}
+                <article class="box mb-3">
+                    <div class="icontext w-100">
+        
+                        <div class="text">
+                            <span class="date text-muted float-md-right">{{review.updated_at}} </span>
+                            <h6 class="mb-1">{{review.user}} </h6>
+                            <div class="rating-star">
+                                <span>
+                                    <i class="bi bi-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="bi bi-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="bi bi-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="bi bi-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
+                                    <i class="bi bi-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div> <!-- icontext.// -->
+                    <div class="mt-3">
+                        <h5><b>{{review.title}}</b></h5>
+                        <p>
+                            {{review.review}}
+                        </p>
+                    </div>
+                </article>
+        {% endfor %}
     </div>
-    {% endblock %}
+</div>
+<br>
+
+</body>
+</html>

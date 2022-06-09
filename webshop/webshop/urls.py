@@ -33,5 +33,6 @@ urlpatterns = [
         views.product_detail,
 
         name='product_detail'),
+    path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
