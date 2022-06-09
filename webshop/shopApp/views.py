@@ -79,5 +79,11 @@ def home(request, category_slug=None):
                    'categories': categories,
                    'products': products})
 
-def product_detail(request):
-    pass
+def product_detail(request, product_id,slug):
+    product = get_object_or_404(Product,
+                                id=product_id,
+                                available=True)
+    #cart_product_form = CartAddProductForm()
+    return render(request,
+                  'product_detail.html',
+                  {'product': product,})
