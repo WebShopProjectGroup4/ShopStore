@@ -103,3 +103,5 @@ def product_detail(request, product_id,slug):
                   'product_detail.html',
                   {'product': product,})
 
+def about(request):
+    return render(request,"about.html")
