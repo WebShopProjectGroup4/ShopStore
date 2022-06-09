@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form class="d-flex" method="POST" action="/search/"> {% csrf_token %}
+        <input class="form-control me-2" type="search" name="search" placeholder="Search Product" aria-label="Search">
+        <button href="/search/" class="btn btn-secondary" type="submit">Search</button>
+    </form>
+
+    {% if search %}
+
+<div class="container mt-2 mb-3">
+
+    <div class="row">
+      <h4>searched For:{{search}}</h4>
+        {% for product in products %}
+        <div class="col-lg-4 my-4">
+            <div class="card shadow align-items-center" style="width: 20rem; height: 23rem;">
+                <img src="{{product.image.url}}" class="card-img-top" alt="..." style="width: 170px; height: 260px;">
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <h5>{{product.description}}</h5>
+                  <h4>{{product.price}} Kr</h4>
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endif %}
+</body>
+</html>
+
