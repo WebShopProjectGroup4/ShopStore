@@ -4,8 +4,11 @@ from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
 from shopApp.models import *
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from .forms import *
 from cart.forms import CartAddProductForm
+
+from django.core.paginator import Paginator
 
 # Create your views here.
 def welcome(request):
@@ -45,10 +48,10 @@ def register(request):
         if password==confirm_password:
             if User.objects.filter(username=username).exists():
                 messages.info(request, 'Username is already taken')
-                return redirect("registeration")
+                return redirect("register")
             elif User.objects.filter(email=email).exists():
                 messages.info(request, 'Email is already taken')
-                return redirect("registeration")
+                return redirect("register")
             else:
                 user = User.objects.create_user(username=username, password=password, 
                                         email=email, first_name=first_name, last_name=last_name)
@@ -59,7 +62,7 @@ def register(request):
 
         else:
             messages.info(request, 'Both passwords are not matching')
-            return redirect("registeration")
+            return redirect("register")
             
 
     else:
@@ -81,7 +84,7 @@ def home(request, category_slug=None):
                   'home.html',
                   {'category': category,
                    'categories': categories,
-                   'products': products})
+                   'products': products,})
 
 
 def search(request):
@@ -134,3 +137,19 @@ def submit_review(request, product_id):
 
 def about(request):
     return render(request,"about.html")
+
+
+def favourite(request,product_id):
+    print(product_id)
+    product=get_object_or_404(Product,id=product_id)
+    if product.favourite.filter(id=request.user.id).exists():
+        product.favourite.remove(request.user)
+    else:
+        product.favourite.add(request.user)
+    return HttpResponseRedirect(product.get_absolute_url())
+
+def favourite_list(request):
+    user=request.user
+    favourite_products = user.favourite.all()
+    context={'favourite_products':favourite_products,}
+    return render(request,'favourite.html',context)

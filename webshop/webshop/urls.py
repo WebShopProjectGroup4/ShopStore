@@ -32,4 +32,6 @@ urlpatterns = [
     path('(?P<product_id>\d+)/(?P<slug>[-\w]+)/',views.product_detail, name='product_detail'),
     path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
     path('cart/', include('cart.urls', namespace='cart')),
+    path('favourite/', views.favourite_list, name='favourite_list'),
+    path('favourite/(?P<product_id>\d+)', views.favourite, name='favourite'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
