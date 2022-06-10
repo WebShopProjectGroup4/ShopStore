@@ -1,12 +1,12 @@
 from django import forms
-
 from .models import Review
+from .models import UserProfile
 
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['title', 'review', 'rating']
-from .models import UserProfile
+
 
 
 class UserProfileForm(forms.ModelForm):

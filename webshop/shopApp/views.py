@@ -110,9 +110,7 @@ def product_detail(request, product_id,slug):
     cart_product_form = CartAddProductForm()
     return render(request,
                   'product_detail.html',
-
-                  {'product': product,'reviews':reviews,'cart_product_form': cart_product_form})
-                  
+                  {'product': product,})
     
 @login_required
 def profile(request):
@@ -137,6 +135,12 @@ def profile(request):
     }
 
     return render(request, template, context)
+
+
+                 
+                  
+    
+
 
 
 def submit_review(request, product_id):
