@@ -2,10 +2,13 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
+from django.contrib.auth.decorators import login_required
 from shopApp.models import *
 from django.db.models import Q
 from .forms import *
 from cart.forms import CartAddProductForm
+from .models import UserProfile
+from .forms import UserProfileForm
 
 # Create your views here.
 def welcome(request):
@@ -45,10 +48,10 @@ def register(request):
         if password==confirm_password:
             if User.objects.filter(username=username).exists():
                 messages.info(request, 'Username is already taken')
-                return redirect("registeration")
+                return redirect("register")
             elif User.objects.filter(email=email).exists():
                 messages.info(request, 'Email is already taken')
-                return redirect("registeration")
+                return redirect("register")
             else:
                 user = User.objects.create_user(username=username, password=password, 
                                         email=email, first_name=first_name, last_name=last_name)
@@ -134,3 +137,27 @@ def submit_review(request, product_id):
 
 def about(request):
     return render(request,"about.html")
+
+@login_required
+def profile(request):
+    """ Display the user's profile. """
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+        else:
+            print("not valid")
+    else:
+        form = UserProfileForm(instance=profile)
+    #orders = profile.orders.all()
+
+    
+    context = {
+        'form': form
+    
+        
+    }
+
+    return render(request, "profile.html", context)
