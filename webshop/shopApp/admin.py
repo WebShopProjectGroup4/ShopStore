@@ -4,4 +4,8 @@ from .models import *
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Product)
+<<<<<<< Updated upstream
 admin.site.register(Review)
+=======
+admin.site.register(UserProfile)
+>>>>>>> Stashed changes

@@ -2,10 +2,14 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
+from django.contrib.auth.decorators import login_required
 from shopApp.models import *
 from django.db.models import Q
 from .forms import *
 from cart.forms import CartAddProductForm
+from .models import UserProfile
+from .forms import UserProfileForm
+
 
 # Create your views here.
 def welcome(request):
@@ -106,7 +110,33 @@ def product_detail(request, product_id,slug):
     cart_product_form = CartAddProductForm()
     return render(request,
                   'product_detail.html',
+
                   {'product': product,'reviews':reviews,'cart_product_form': cart_product_form})
+                  
+    
+@login_required
+def profile(request):
+    """ Display the user's profile. """
+    profile = get_object_or_404(UserProfile, user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+        else:
+            print("not valid")
+    else:
+        form = UserProfileForm(instance=profile)
+    #orders = profile.orders.all()
+
+    template = 'profile.html'
+    context = {
+        'form': form,
+    
+        
+    }
+
+    return render(request, template, context)
 
 
 def submit_review(request, product_id):
