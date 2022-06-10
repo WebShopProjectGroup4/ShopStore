@@ -5,6 +5,7 @@ from django.shortcuts import render,get_object_or_404
 from shopApp.models import *
 from django.db.models import Q
 from .forms import *
+from cart.forms import CartAddProductForm
 
 # Create your views here.
 def welcome(request):
@@ -102,10 +103,10 @@ def product_detail(request, product_id,slug):
 
     reviews = Review.objects.filter(product_id = product_id)
     
-    #cart_product_form = CartAddProductForm()
+    cart_product_form = CartAddProductForm()
     return render(request,
                   'product_detail.html',
-                  {'product': product,'reviews':reviews})
+                  {'product': product,'reviews':reviews,'cart_product_form': cart_product_form})
 
 
 def submit_review(request, product_id):

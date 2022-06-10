@@ -64,7 +64,20 @@
                             </li>
                             {% endif %}
                             </ul>
-                            
+                            <div class="cart">
+                                {% with total_items=cart|length %}
+                                  {% if total_items > 0 %}
+                                    Your cart:
+                                    <a href="{% url "cart:cart_detail" %}">
+                                      {{ total_items }} item{{ total_items|pluralize }},
+                                      ${{ cart.get_total_price }}
+                                    </a>
+                                  {% else %}
+                                    Your cart is empty.
+                                  {% endif %}
+                                {% endwith %}
+                              </div>
+                              
                             <form class="d-flex ms-auto order-5"> 
                                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shopApp'
+    'shopApp',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'cart.context_processors.cart',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -131,3 +133,5 @@ LOGOUT_REDIRECT_URL = "login"
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='/media/'
 
+
+CART_SESSION_ID = 'cart'
