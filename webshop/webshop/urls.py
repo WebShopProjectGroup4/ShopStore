@@ -30,6 +30,7 @@ urlpatterns = [
     path("profile/", views.profile, name = "profile"),
     path('(?P<category_slug>[-\w]+)/',views.home,name='home_by_category'),
     path("search/",views.search,name="search"),
+    path('orders/', include('orders.urls', namespace='orders')),
     path('(?P<product_id>\d+)/(?P<slug>[-\w]+)/',views.product_detail, name='product_detail'),
     path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
     path('cart/', include('cart.urls', namespace='cart')),
