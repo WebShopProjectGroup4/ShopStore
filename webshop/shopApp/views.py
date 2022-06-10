@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
 from shopApp.models import *
 from django.db.models import Q
+from .forms import *
 
 # Create your views here.
 def welcome(request):
@@ -98,8 +99,37 @@ def product_detail(request, product_id,slug):
     product = get_object_or_404(Product,
                                 id=product_id,
                                 available=True)
+
+    reviews = Review.objects.filter(product_id = product_id)
+    
     #cart_product_form = CartAddProductForm()
     return render(request,
                   'product_detail.html',
-                  {'product': product,})
+                  {'product': product,'reviews':reviews})
 
+
+def submit_review(request, product_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        try:
+            reviews = Review.objects.get(product__id=product_id)
+            form = ReviewForm(request.POST, instance=reviews)
+            form.save()
+            messages.success(request, 'Thank you! Your review has been updated.')
+            return redirect(url)
+        except Review.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = Review()
+                data.title = form.cleaned_data['title']
+                data.rating = form.cleaned_data['rating']
+                data.review = form.cleaned_data['review']
+                data.product_id = product_id
+                user = request.user.id
+                data.user_id = user
+                data.save()
+                messages.success(request, 'Thank you! Your review has been submitted.')
+                return redirect(url)
+
+def about(request):
+    return render(request,"about.html")
