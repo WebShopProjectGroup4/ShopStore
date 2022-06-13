@@ -3,12 +3,20 @@ from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from shopApp.models import *
 from django.db.models import Q
 from .forms import *
 from cart.forms import CartAddProductForm
 from .models import UserProfile
 from .forms import UserProfileForm
+from orders.models import *
+
+#paypal
+from paypal.standard.forms import PayPalPaymentsForm
+from decimal import Decimal
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def welcome(request):
@@ -116,7 +124,7 @@ def submit_review(request, product_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
         try:
-            reviews = Review.objects.get(product__id=product_id)
+            reviews = Review.objects.get(user=request.user,product_id=product_id)
             form = ReviewForm(request.POST, instance=reviews)
             form.save()
             messages.success(request, 'Thank you! Your review has been updated.')
@@ -161,3 +169,68 @@ def profile(request):
     }
 
     return render(request, "profile.html", context)
+
+
+#payment
+def payment_process(request):
+    order_id = request.session.get('order_id')
+    print(order_id)
+    
+    order = get_object_or_404(Order, id=order_id)
+    host = request.get_host()#Returns the originating host 
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,#business this is your Paypal account email. Payments will be sent to this account, 
+        'amount': '%.2f' % order.get_total_cost().quantize(
+            Decimal('.01')),
+        'item_name': 'Order {}'.format(order.id),
+        'invoice': str(order.id),
+        'currency_code': 'SEK',
+        'notify_url': 'http://{}{}'.format(host,
+                                           reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host,
+                                           reverse('payment_done')),
+        'cancel_return': 'http://{}{}'.format(host,
+                                              reverse('payment_cancelled')),
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request,
+                  'payment/process.html',
+                  {'order': order, 'form': form})
+
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'payment/done.html')
+
+@csrf_exempt
+def payment_cancelled(request):
+    return render(request, 'payment/cancelled.html')
+
+
+#wishlist
+def favourite(request,product_id):
+    print(product_id)
+    product=get_object_or_404(Product,id=product_id)
+    if product.favourite.filter(id=request.user.id).exists():
+        product.favourite.remove(request.user)
+    else:
+        product.favourite.add(request.user)
+    return HttpResponseRedirect(product.get_absolute_url())
+
+def favourite_list(request):
+    user=request.user
+    favourite_products = user.favourite.all()
+    context={'favourite_products':favourite_products,}
+    return render(request,'favourite.html',context)
+
+def delete(request,product_id):
+    products = Product.objects.get(id=product_id)
+    print(product_id)
+    if request.method == "POST":
+        products.delete()
+    
+    user=request.user
+    favourite_products = user.favourite.all()
+    context={'favourite_products':favourite_products,}
+    return render(request,'favourite.html',context)
+    #return render(request,"home.html",{'products':products})
+

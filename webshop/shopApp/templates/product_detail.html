@@ -96,6 +96,16 @@
                 <p>
                     <h4><b>Product Details:</b></h4>{{ product.description }}
                 </p>
+
+                <div>
+    
+                    <form action="{% url 'favourite' product.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Add to WishList" class="btn btn-danger">
+                           
+                    </form>
+                </div>
+
                 <br>
                 <h2>Add Reviews Here</h2>
 

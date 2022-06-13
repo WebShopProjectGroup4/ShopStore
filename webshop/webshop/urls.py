@@ -34,4 +34,18 @@ urlpatterns = [
     path('(?P<product_id>\d+)/(?P<slug>[-\w]+)/',views.product_detail, name='product_detail'),
     path('submit_review/<int:product_id>/', views.submit_review, name='submit_review'),
     path('cart/', include('cart.urls', namespace='cart')),
+    #paypal payment
+    path('process/$', views.payment_process
+        , name='process'),
+    path('payment_done/$', views.payment_done
+        , name='payment_done'),
+    path('payment_cancelled/$', views.payment_cancelled
+        , name='payment_cancelled'),
+    path('paypal/', include("paypal.standard.ipn.urls")),
+
+    #wishlist
+    path('favourite/', views.favourite_list, name='favourite_list'),
+    path('favourite/(?P<product_id>\d+)', views.favourite, name='favourite'),
+    path('delete/<int:product_id>/', views.delete, name='delete'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

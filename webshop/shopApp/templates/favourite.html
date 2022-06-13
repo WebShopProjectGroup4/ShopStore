@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <h3>Your Favourites:</h3>
+    <table>
+        <thead>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </thead>
+        <tbody>
+            {% for p in favourite_products %}
+            <tr> 
+                <td> <img src="{{ p.image.url }}" class="img-responsive" style="width:100px;height:100px"></td>
+                <td> {{ p.name }}</td>
+                <td>{{ p.description }}</td>
+                <td>{{ p.price }}</td>   
+                <td><form action="{% url 'delete' p.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                       
+                </form> </td>                                                                                                                       
+                    
+                {% empty %} 
+                <h2>No favourites</h2>
+                    {% endfor %}
+            </tr>
+            
+          
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

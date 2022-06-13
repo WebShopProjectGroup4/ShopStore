@@ -8,6 +8,7 @@ from django_countries.fields import CountryField
 
 from django.utils.timezone import now
 from django.contrib.auth.models import User
+from django.db.models import Avg, Count
 
 
 
@@ -38,6 +39,7 @@ class Product(models.Model):
     description = models.TextField(max_length = 1000,blank=True)
     price = models.DecimalField(max_digits=10,decimal_places=0)
     available = models.BooleanField(default=True)
+    favourite=models.ManyToManyField(User,related_name="favourite",blank=True)
 
     SIZES = (
         ('XS', 'XSmall'),
@@ -70,6 +72,20 @@ class Review(models.Model):
 
     def __str__(self):
         return " Review: " + str(self.title) 
+
+    def averageReview(self):
+        reviews = Review.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = float(reviews['average'])
+        return avg
+
+    def countReview(self):
+        reviews = Review.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        count = 0
+        if reviews['count'] is not None:
+            count = int(reviews['count'])
+        return count
 
         
 class UserProfile(models.Model):
