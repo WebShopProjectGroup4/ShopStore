@@ -12,6 +12,8 @@ from .models import UserProfile
 from .forms import UserProfileForm
 from orders.models import *
 
+from django.core.paginator import Paginator
+
 #paypal
 from paypal.standard.forms import PayPalPaymentsForm
 from decimal import Decimal
@@ -85,6 +87,10 @@ def home(request, category_slug=None):
     category = None
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
+    paginator = Paginator(Product.objects.all(), 5) 
+    #page_number = request.GET.get('home')
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
@@ -92,7 +98,8 @@ def home(request, category_slug=None):
                   'home.html',
                   {'category': category,
                    'categories': categories,
-                   'products': products})
+                   'products': products,
+                   'page_obj':page_obj})
 
 
 def search(request):
