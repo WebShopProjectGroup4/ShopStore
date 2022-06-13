@@ -4,11 +4,13 @@ from django.contrib.auth.models import User, auth
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from shopApp.models import *
+from orders.models import *
 from django.db.models import Q
 from .forms import *
 from cart.forms import CartAddProductForm
 from .models import UserProfile
 from .forms import UserProfileForm
+
 
 # Create your views here.
 def welcome(request):
@@ -151,13 +153,18 @@ def profile(request):
             print("not valid")
     else:
         form = UserProfileForm(instance=profile)
-    #orders = profile.orders.all()
+   
+    orders = OrderItem.objects.all()
+    print(123)
+    
+    
 
     
     context = {
-        'form': form
-    
+        'form': form,
+        'orders':orders,
         
     }
 
     return render(request, "profile.html", context)
+
