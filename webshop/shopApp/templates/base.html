@@ -23,6 +23,9 @@
     {% load static %}
     <link rel="stylesheet" href=" {% static 'css/styleSearch.css' %} ">
     <link rel="stylesheet" href=" {% static 'fonts/ionicons/css/ionicons.min.css' %} ">
+    {% block style %}
+      
+    {% endblock style %}
 </head>
 <style>
     {% block css %}
@@ -46,6 +49,7 @@
                                 <a class="nav-link active" style="text-decoration: none !important; color:gray;"
                                     href="{% url 'welcome' %}">HOME</a>
                             </li>
+
                             {% if user.is_authenticated %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'home' %}">SHOP</a>
@@ -106,10 +110,10 @@
         {# The Document Body #}
         <div id="site-wrapper">
             <div class="container-fluid">
-            {% block content %}
-            
-            {% endblock %}
-        </div>
+                {% block content %}
+
+                {% endblock %}
+            </div>
         </div>
         {# The Footer #}
         <div class="container-fluid" style="margin-bottom:20px;margin-top:50px;bottom:0">
@@ -160,9 +164,11 @@
             </div>
             </footer>
 
-        </div>    
-     
         
-        
-    </body>
+    </div>
+
+
+
+</body>
+
 </html>

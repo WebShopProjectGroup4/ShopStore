@@ -1,21 +1,45 @@
 {% extends "base.html" %}
-{% block content %}
-    <div class="mx-auto" style="width: 500px" ;>
-        <form action="login" method="post" class="form-horizontal">
-            {% csrf_token%}
-            <div class="col-xs-8 col-xs-offset-4">
-                <h2 style="text-align:center;">LOGIN</h2>
-            </div>
+{% load static %}
+{% block style %}
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
 
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username">
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+{% endblock style %}
+{% block content %}
+<main class="mx-auto text-center" style="width: 400px;">
+    <div  class="form-signin mt-5">
+        <form action="login" method="post" class="form-horizontal">
+            <img class="mb-4" src="/media/images/logo.png" alt="" width="72" height="57">
+            {% csrf_token%}
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Enter Username" name="username">
+      <label for="floatingInput">Username</label>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
-            </div>
-            <button type="submit" class="btn btn-primary">LOGIN</button>
+           
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                <label for="floatingPassword">Password</label>
+              </div>
+              
+            <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+  </form>
             <br />
             <div class="form-group">
                 {% for message in messages %}
@@ -25,6 +49,7 @@
                 {% endfor %}
             </div>
         </form>
-    </div>    
+    </div>   
+</main> 
         {% endblock %}
       

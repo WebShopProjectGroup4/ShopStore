@@ -12,8 +12,6 @@ from django.contrib.auth.models import User
 from django.db.models import Avg, Count
 
 
-
-
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -27,20 +25,22 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    
     def get_absolute_url(self):
         return reverse('home_by_category',
                        args=[self.slug])
 
+
 class Product(models.Model):
-    category = models.ForeignKey(Category,related_name='products',on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
-    image = models.ImageField(upload_to='images',blank = True)
-    description = models.TextField(max_length = 1000,blank=True)
-    price = models.DecimalField(max_digits=10,decimal_places=0)
+    image = models.ImageField(upload_to='images', blank=True)
+    description = models.TextField(max_length=1000, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=0)
     available = models.BooleanField(default=True)
-    favourite=models.ManyToManyField(User,related_name="favourite",blank=True)
+    favourite = models.ManyToManyField(
+        User, related_name="favourite", blank=True)
 
     SIZES = (
         ('XS', 'XSmall'),
@@ -70,39 +70,41 @@ class Product(models.Model):
 
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    review = models.TextField(max_length=1000,blank=True)
-    title = models.CharField(max_length=100,blank=True)
+    review = models.TextField(max_length=1000, blank=True)
+    title = models.CharField(max_length=100, blank=True)
     rating = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return " Review: " + str(self.title) 
+        return " Review: " + str(self.title)
 
     def averageReview(self):
-        reviews = Review.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        reviews = Review.objects.filter(
+            product=self, status=True).aggregate(average=Avg('rating'))
         avg = 0
         if reviews['average'] is not None:
             avg = float(reviews['average'])
         return avg
 
     def countReview(self):
-        reviews = Review.objects.filter(product=self, status=True).aggregate(count=Count('id'))
+        reviews = Review.objects.filter(
+            product=self, status=True).aggregate(count=Count('id'))
         count = 0
         if reviews['count'] is not None:
             count = int(reviews['count'])
         return count
 
-        
+
 class UserProfile(models.Model):
     """
     A user profile model for maintaining default
     delivery information and order history
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-   
+
     default_phone_number = models.CharField(
         max_length=20, null=True, blank=True)
     default_street_address1 = models.CharField(
@@ -119,6 +121,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """
@@ -128,6 +131,3 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
     # Existing users: just save the profile
     instance.userprofile.save()
-
-
-
