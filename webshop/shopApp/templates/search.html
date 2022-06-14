@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <form class="d-flex" method="POST" action="/search/"> {% csrf_token %}
-        <input class="form-control me-2" type="search" name="search" placeholder="Search Product" aria-label="Search">
-        <button href="/search/" class="btn btn-secondary" type="submit">Search</button>
-    </form>
+ 
 
     {% if search %}
 
 <div class="container mt-2 mb-3">
 
     <div class="row">
-      <h4>searched For:{{search}}</h4>
+      <h4>Searched For:{{search}}</h4>
+      <hr>
         {% for product in products %}
         <div class="col-lg-4 my-4">
             <div class="card shadow align-items-center" style="width: 20rem; height: 23rem;">
