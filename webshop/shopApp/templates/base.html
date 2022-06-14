@@ -84,6 +84,10 @@
                                     <button href="{% url 'search' %}" class="btn btn-outline-info my-2 my-sm-0"
                                         type="submit">SEARCH</button>
                                 </form>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Hi, {{user.first_name}}</a>
+                            </li>
                             <li class="nav-item">
                                 {% with total_items=cart|length %}
                                 {% if total_items > 0 %}
@@ -96,9 +100,6 @@
                                 Your cart is empty.
                                 {% endif %}
                                 {% endwith %}
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="">Hi, {{user.first_name}}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'cart:cart_detail' %}">CART <i class="fa fa-cart-plus"
