@@ -73,11 +73,21 @@
                             </li>
                             </li>
                             {% endif %}
+                        </ul>
                             {% if user.is_authenticated %}
+
+                            <ul class="nav navbar-nav navbar-left">
+                                <form class="d-flex ms-auto " method="POST" action="{% url 'search' %}">
+                                    {% csrf_token %}
+                                    <input class="form-control me-2" type="search" name="search"
+                                        placeholder="Search Product" aria-label="Search">
+                                    <button href="{% url 'search' %}" class="btn btn-outline-info my-2 my-sm-0"
+                                        type="submit">SEARCH</button>
+                                </form>
                             <li class="nav-item">
                                 {% with total_items=cart|length %}
                                 {% if total_items > 0 %}
-                                Your cart:
+                               
                                 <a class="nav-link" href="{% url "cart:cart_detail" %}">
                                     {{ total_items }} item{{ total_items|pluralize }},
                                     ${{ cart.get_total_price }}
@@ -101,15 +111,9 @@
                             <li>
                                 <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
                             </li>
-                            <li class="nav-item">
-                                <form class="d-flex ms-auto order-5" method="POST" action="{% url 'search' %}">
-                                    {% csrf_token %}
-                                    <input class="form-control me-2" type="search" name="search"
-                                        placeholder="Search Product" aria-label="Search">
-                                    <button href="{% url 'search' %}" class="btn btn-outline-info my-2 my-sm-0"
-                                        type="submit">SEARCH</button>
-                                </form>
-                            </li>
+                            
+                                
+                           
                             {% endif %}
                         </ul>
                     </div>
