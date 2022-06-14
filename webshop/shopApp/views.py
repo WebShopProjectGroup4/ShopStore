@@ -120,13 +120,14 @@ def product_detail(request, product_id,slug):
     product = get_object_or_404(Product,
                                 id=product_id,
                                 available=True)
+    categories = Category.objects.all()
 
     reviews = Review.objects.filter(product_id = product_id)
     
     cart_product_form = CartAddProductForm()
     return render(request,
                   'product_detail.html',
-                  {'product': product,'reviews':reviews,'cart_product_form': cart_product_form})
+                  {'product': product,'reviews':reviews,'cart_product_form': cart_product_form,'categories': categories,})
 
 
 def submit_review(request, product_id):
