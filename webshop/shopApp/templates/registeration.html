@@ -1,45 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-
+<main class="mx-auto text-center w-50" >
+    <div  class="form-signin mt-5">
 	<form action="register" method="POST" class="form-horizontal">
+		<img class="mb-4" src="/media/images/logo.png" alt="" width="72" height="57">
 		{% csrf_token%}
-		<div class="mx-auto" style="width: 400px;">
+		<div class="row g-3 align-items-center">
 
-			<div class="col-xs-8 col-xs-offset-4">
+			<div class="col-xs-3 col-xs-offset-2">
 				<h2 style="text-align:center;">SIGN UP</h2>
 			</div>
 			<hr />
-			<div class="form-group">
+			<div class="form-group ">
 				<label for="username">Username</label>
-				<input type="text" class="form-control" name="username" id="username" placeholder="Enter Username"
+				<input type="text" class="form-control w-100" name="username" id="username" placeholder="Enter Username"
 					Required>
 			</div>
-			<div class="form-group">
+			<div class="form-group ">
 				<label for="fanme">First Name</label>
-				<input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name"
+				<input type="text" class="form-control w-100" name="first_name" id="first_name" placeholder="Enter First Name"
 					Required>
 			</div>
-			<div class="form-group">
+			<div class="form-group ">
 				<label for="lname">Last Name</label>
-				<input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter Last Name"
+				<input type="text" class="form-control w-100" name="last_name" id="last_name" placeholder="Enter Last Name"
 					Required>
 			</div>
-			<div class="form-group">
+			<div class="form-group ">
 				<label for="email">Email address</label>
-				<input type="email" class="form-control" name="email" id="email" placeholder="Enter email" Required>
+				<input type="email" class="form-control w-100" name="email" id="email" placeholder="Enter email" Required>
 			</div>
-			<div class="form-group">
+			<div class="form-group ">
 				<label for="password">Password</label>
-				<input type="password" class="form-control" name="password" id="password" placeholder="Enter Password"
+				<input type="password" class="form-control w-100" name="password" id="password" placeholder="Enter Password"
 					Required>
 			</div>
-			<div class="form-group">
+			<div class="form-group ">
 				<label for="confirm_password">Confirm Password</label>
-				<input type="password" class="form-control" name="confirm_password" id="confirm_password"
+				<input type="password" class="form-control w-100" name="confirm_password" id="confirm_password"
 					placeholder="Confirm Your Password" Required>
 			</div>
-			<button type="submit" class="btn btn-primary">SIGNUP</button>
-			<a class="btn btn-dark" href="login" role="button">LOGIN</a>
+			<button type="submit" class="btn btn-primary w-50 ">SIGNUP</button>
+			<a class="btn btn-dark w-50" href="{% url 'login' %}" role="button">LOGIN</a>
 		</div>
 	</form>
 	<div class="form-group">
@@ -49,4 +51,6 @@
 		</div>
 		{% endfor %}
 	</div>
+</div>
+</main>
 	{% endblock %}
