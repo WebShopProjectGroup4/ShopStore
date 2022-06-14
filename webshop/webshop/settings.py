@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'shopApp',
     'cart',
     'orders.apps.OrdersConfig',
-    'crispy_forms'
+    'crispy_forms',
+     'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,7 @@ MEDIA_URL='/media/'
 
 
 CART_SESSION_ID = 'cart'
+
+#paypal--
+PAYPAL_RECEIVER_EMAIL = 'kantha.k2k13@gmail.com'
+PAYPAL_TEST = True

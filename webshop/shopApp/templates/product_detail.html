@@ -56,6 +56,16 @@
         label:hover~label {
             color: #ffb503;
         }
+                /* hover hightlight */
+        input:checked + label:hover, input:checked ~ label:hover,input:checked ~ label:hover ~ label,
+        label:hover ~ input:checked ~ label{
+        color: #cc9000;
+        }
+
+        .rating-star i{
+        color: #ffb503 !important;
+        }
+
     </style>
 
     {% load static %}
@@ -96,6 +106,16 @@
                 <p>
                     <h4><b>Product Details:</b></h4>{{ product.description }}
                 </p>
+
+                <div>
+    
+                    <form action="{% url 'favourite' product.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Add to WishList" class="btn btn-danger">
+                           
+                    </form>
+                </div>
+
                 <br>
                 <h2>Add Reviews Here</h2>
 
