@@ -29,7 +29,7 @@
     {% endblock %}
 </style>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid" >
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
                 <div class="container-fluid">
@@ -104,16 +104,16 @@
             </nav>
         </header>
         {# The Document Body #}
-        <div id="site-wrapper">
-            <div class="container-fluid">
+        <div id="site-wrapper"  >
+            <div class="container-fluid" >
             {% block content %}
             
             {% endblock %}
         </div>
         </div>
         {# The Footer #}
-        <div class="container-fluid" style="margin-bottom:20px;margin-top:50px;bottom:0">
-            <footer class="py-3 footer-dark bg-dark px-5 " style="height:300px" >
+            <div class="container-fluid" id="footer" style="margin-top:50px;margin-bottom:30px;bottom:0;">
+            <footer class="py-3 footer-dark bg-dark px-5 " style="height:300px;" >
             <div class="container-fluid">
             <div class="row">
                 <div class="col-4">
