@@ -1,61 +1,65 @@
 {% extends "base.html" %}
 {% block content %}
-
-    <div class = "row">
+<div class="container-fluid">
+    <div class="row py-2">
         <div class="col-md-3">
-        <h3>Categories</h3>
-        <ul class = "nav nav-pills nav-stacked">
-            <li {% if not category %} class = "active" {% endif %}>
-                <a href="{% url 'home' %}">All</a>
+            <h3>Categories</h3>
+            <div class="list-group">
 
-            </li>
+                <a {% if not category %} class="list-group-item list-group-item-action active" {% endif %}
+                    href="{% url 'home' %}">All</a>
+                {% for c in categories %}
+                <a {% if category.slug == c.slug %} class="list-group-item list-group-item-action active" {% endif %}
+                    href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h2>{% if category %}{{ category.name }}
+                {% else %}Products
+                {% endif %}</h2>
+            <div>
+                {% for product in products %}
+                <div class="card mt-2" style="width: 18rem ;display:inline-block">
 
-            {% for c in categories %}
-            <li {% if category.slug == c.slug %} class="active"{% endif %}>
-                <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-            </li>
-        {% endfor %}
-        </ul>
-    </div>
-    <div class="col-md-9">
-        <h2>{% if category %}{{ category.name }}
-            {% else %}Products
-            {% endif %}</h2>
-        <div class="row">
-            {% for product in page_obj %}
-                <div class="col-md-4">
-                    <div class="thumbnail">
+
+                    <a class="card-img-top" href="{{ product.get_absolute_url }}">
+
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="cannot display"
+                            style="height: 20rem; ">
+
+                    </a>
+                    <div class="card-body">
+
                         <a href="{{ product.get_absolute_url }}">
-                            
-                            <img src="{{ product.image.url }}" alt="cannot display"  > 
-
+                            <h5 class="card-title">{{ product.name }} </h5>
                         </a>
-                        <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
-                        {{ product.price }} Kr
+                        <p class="card-text">{{ product.price }} Kr</p>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
+            <!-- <div class="pagination">
+                <span class="step-links">
 
-        <div class="pagination">
-            <span class="step-links">
-                
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a> 
+                    {% if page_obj.has_previous %}
                     <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-        
-                <span class="current">
-                    &#60; Page  {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} &#62;
-                    {% comment %} <a href="?page={{ page_obj.number }}"> {{ page_obj.number }} </a> of <a href="?page={{ page_obj.paginator.num_pages }}"> {{ page_obj.paginator.num_pages }}</a> {% endcomment %}
-                </span>
-        
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+                    {% endif %}
 
+                    <span class="current">
+                        &#60; Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} &#62;
+                        {% comment %} <a href="?page={{ page_obj.number }}"> {{ page_obj.number }} </a> of <a
+                            href="?page={{ page_obj.paginator.num_pages }}"> {{ page_obj.paginator.num_pages }}</a>
+                        {% endcomment %}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div> -->
+
+        </div>
     </div>
-{% endblock %}
+
+    {% endblock %}

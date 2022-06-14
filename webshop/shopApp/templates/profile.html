@@ -14,8 +14,9 @@
                     {% for field in form %}
                     {{ field | as_crispy_field }}
                     {% endfor %}
-                    <button class="btn btn-primary button_colors rounded-0 text-uppercase float-right">Update
-                        Information</button>
+                    <div class="mx-auto" style="width: 200px;">
+                    <button type="submit" class="btn btn-primary">Update Information</button>
+                    </div>
                 </form>
             </div>
     
@@ -23,7 +24,7 @@
             <div class="col-12 col-lg-6">
                 <h2 class="mb-4">Order History:</h2>
                 <div class="order-history table-responsive">
-                    <table class="table table-sm table-borderless">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Order Number</th>
