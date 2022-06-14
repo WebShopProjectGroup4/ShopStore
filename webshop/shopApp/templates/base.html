@@ -26,22 +26,20 @@
     {% block style %}
 
     {% endblock style %}
-</head>
-<style>
-    {
-        % block css %
-    }
 
-        {
-        % endblock %
-    }
+<style>
+    {% block css %}
+    {% endblock %}
 </style>
+
+</head>
+
 
 <body>
     <div class="container-fluid">
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-                <div class="container-fluid" style="flex-wrap:nowrap">
+                <div class="container-fluid" >
                     <a class="navbar-brand" href="{% url 'welcome' %}"><img src="/media/images/logo.png" width="45"
                             alt="" class="d-inline-block align-middle mr-2">Buy-Bye SHOP</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
