@@ -60,6 +60,13 @@ class Product(models.Model):
         return reverse('product_detail',
                        args=[self.id,self.slug])
 
+    def averageReview(self):
+        reviews = Review.objects.filter(product=self, status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg = float(reviews['average'])
+        return avg
+
 
 
 class Review(models.Model):

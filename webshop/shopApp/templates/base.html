@@ -1,56 +1,64 @@
 
-{# HTML5 declaration #}
 <!DOCTYPE html>
 <html>
-
-    <head>
-        <title>{% block title %} Welcome {% endblock title %} | Colth Shop Store</title>
-        {% block head_favicon %}
-        <link rel="icon" type="image/png" href="/media/images/favicon.ico">
-        {% endblock head_favicon %}
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="Content-Language" value="en-US" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-        <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<head>
+    <title>{% block title %} Welcome {% endblock title %} | Colth Shop Store</title>
+    {% block head_favicon %}
+    <link rel="icon" type="image/png" href="/media/images/favicon.ico">
+    {% endblock head_favicon %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" value="en-US" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 
     {% load static %}
-  <link rel="stylesheet" href=" {% static 'css/styleSearch.css' %} ">
-        <link rel="stylesheet" href=" {% static 'fonts/ionicons/css/ionicons.min.css' %} ">  
-    </head>
-    <body>
-        <div class="container-fluid">
-            <header>
+    <link rel="stylesheet" href=" {% static 'css/styleSearch.css' %} ">
+    <link rel="stylesheet" href=" {% static 'fonts/ionicons/css/ionicons.min.css' %} ">
+</head>
+<style>
+    {% block css %}
+    {% endblock %}
+</style>
+<body>
+    <div class="container-fluid">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
                 <div class="container-fluid">
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-                        <img src="/media/images/logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
-                        
-                        <a class="navbar-brand" href="{% url 'welcome' %}">Buy-Bye SHOP</a>
-                        <a class="nav-link" style="text-decoration: none !important; color:gray;" href="{% url 'welcome' %}">WELCOME</a>
-                        
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="navbar-brand" href="{% url 'welcome' %}"><img src="/media/images/logo.png" width="45"
+                            alt="" class="d-inline-block align-middle mr-2">Buy-Bye SHOP</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    
-                                    <a class="nav-link" href="{% url 'home' %}">HOME</a>
-                                    
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item ">
+                                <a class="nav-link active" style="text-decoration: none !important; color:gray;"
+                                    href="{% url 'welcome' %}">HOME</a>
                             </li>
                             {% if user.is_authenticated %}
                             <li class="nav-item">
-                                    <a class="nav-link" href="">Hi, {{user.first_name}}</a>
+                                <a class="nav-link" href="{% url 'home' %}">SHOP</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
+                                <a class="nav-link" href="">Hi, {{user.first_name}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'profile' %}">MY PROFILE</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'about' %}">ABOUT</a>
-                                </li>
+                            </li>
                             {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'register' %}">SIGN UP</a>
@@ -61,31 +69,39 @@
                             </li>
                             {% endif %}
                             {% if user.is_authenticated %}
-                              <li >
+                            <li class="nav-item">
                                 {% with total_items=cart|length %}
-                                  {% if total_items > 0 %}
-                                    Your cart:
-                                    <a href="{% url "cart:cart_detail" %}">
-                                      {{ total_items }} item{{ total_items|pluralize }},
-                                      ${{ cart.get_total_price }}
-                                    </a>
-                                  {% else %}
-                                    Your cart is empty.
-                                  {% endif %}
+                                {% if total_items > 0 %}
+                                Your cart:
+                                <a class="nav-link" href="{% url "cart:cart_detail" %}">
+                                    {{ total_items }} item{{ total_items|pluralize }},
+                                    ${{ cart.get_total_price }}
+                                </a>
+                                {% else %}
+                                Your cart is empty.
+                                {% endif %}
                                 {% endwith %}
-                                </li>
-                              <li >
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'cart:cart_detail' %}">CART <i class="fa fa-cart-plus" style='color:orange'></i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'favourite_list' %}">WISHLIST<i class='fa fa-heart' style='color:orange'></i></a>
+                            </li>
+                            <li >
                                 <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
                             </li>
-                            <form class="d-flex ms-auto order-5"> 
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                            <li class="nav-item">
+                                <form class="d-flex ms-auto order-5" method="POST" action="{% url 'search' %}">  {% csrf_token %}
+                                    <input class="form-control me-2" type="search" name="search" placeholder="Search Product" aria-label="Search">
+                                    <button href="{% url 'search' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">SEARCH</button>
                                 </form>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </nav>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
+            </nav>
         </header>
         {# The Document Body #}
         <div id="site-wrapper">
@@ -96,62 +112,49 @@
         </div>
         </div>
         {# The Footer #}
-        
-            <footer class="py-5 footer-dark bg-light px-5">
-                <div class="container-fluid">
+        <div class="container-fluid" style="margin-bottom:20px;margin-top:50px;bottom:0">
+            <footer class="py-3 footer-dark bg-dark px-5 " style="height:300px" >
+            <div class="container-fluid">
             <div class="row">
-                <div class="col-2">
+                <div class="col-4">
                 <h5>Section</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Shop</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">SignUp</a></li>
                     <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
                 </ul>
                 </div>
         
-                <div class="col-2">
+                <div class="col-4">
                 <h5>Section</h5>
                 <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Free Shipping*</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Returns</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Safe Payment</a></li>
+
                 </ul>
                 </div>
         
-                <div class="col-2">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-                </div>
-        
-                <div class="col-4 offset-1">
-                <form>
-                    <h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of whats new and exciting from us.</p>
+                <div class="col-4">
+                <form style="margin-top:30px">
+                    <h6 style="color:gray">Subscribe to our newsletter</h6>
+                    {% comment %} <p style="color:gray">Monthly digest of whats new and exciting from us.</p> {% endcomment %}
                     <div class="d-flex w-100 gap-2">
-                    <label for="newsletter1" class="visually-hidden">Email address</label>
+                    {% comment %} <label for="newsletter1" class="visually-hidden">Email address</label> {% endcomment %}
                     <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                    <button class="btn btn-outline-info my-2 my-sm-0 " type="button">Subscribe</button>
+                    <button class="btn btn-outline-info  " type="button">Subscribe</button>
                     </div>
                 </form>
                 </div>
             </div>
         
             <div class="d-flex justify-content-between py-4 my-4 border-top">
-                <p>© 2022 Lexicon Group 4.</p>
+                <p style="color:gray">© 2022 Lexicon Group 4.</p>
                 <ul class="list-unstyled d-flex">
-                <li class="ms-3"><a class="link-light" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-                <li class="ms-3"><a class="link-light" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-                <li class="ms-3"><a class="link-light" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+                    <li><i class="fa fa-facebook" aria-hidden="true" style="color:white;font-size: 30px;  background: #3B5998; padding: 5px; margin:3px"></i></li>
+                    <li><i class="fa fa-twitter" aria-hidden="true" style="color:white;font-size: 30px;  background: #55ACEE; padding: 5px;margin:3px"></i></li>
+                    <li><i class="fa fa-instagram" aria-hidden="true" style="color:white;font-size: 30px; background: #125688; padding: 5px;margin:3px"></i></li>
                 </ul>
             </div>
             </div>
