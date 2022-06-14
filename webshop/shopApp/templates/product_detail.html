@@ -56,6 +56,16 @@
         label:hover~label {
             color: #ffb503;
         }
+                /* hover hightlight */
+        input:checked + label:hover, input:checked ~ label:hover,input:checked ~ label:hover ~ label,
+        label:hover ~ input:checked ~ label{
+        color: #cc9000;
+        }
+
+        .rating-star i{
+        color: #ffb503 !important;
+        }
+
     </style>
 
     {% load static %}
